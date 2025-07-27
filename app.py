@@ -26,15 +26,11 @@ st.set_page_config(
 def check_password():
     """비밀번호 확인 함수"""
     def password_entered():
-        # 여러 비밀번호 설정 가능 (회사 부서별로)
-        valid_passwords = {
-            "dy1234"
-        }
+        # 하나의 비밀번호만 사용
+        correct_password = "inventory2024"  # 원하는 비밀번호로 변경하세요
         
-        entered_password = st.session_state["password"]
-        if entered_password in valid_passwords:
+        if st.session_state["password"] == correct_password:
             st.session_state["password_correct"] = True
-            st.session_state["user_role"] = valid_passwords[entered_password]
             del st.session_state["password"]
         else:
             st.session_state["password_correct"] = False
@@ -43,7 +39,7 @@ def check_password():
     if "password_correct" not in st.session_state:
         st.markdown("# 🔒 재고 커버리지 분석 대시보드")
         st.markdown("---")
-        st.markdown("### 회사 내부용 시스템입니다")
+        st.markdown("### 매주 월요일에 업데이트 됩니다.")
         st.markdown("**접근 권한이 있는 직원만 사용 가능합니다.**")
         
         col1, col2, col3 = st.columns([1, 2, 1])
@@ -57,7 +53,7 @@ def check_password():
             )
         
         st.markdown("---")
-        st.info("💡 비밀번호를 모르시면 유통기획팀에 문의하세요.")
+        st.info("💡 비밀번호 : 유통기획팀 관리.")
         return False
         
     elif not st.session_state["password_correct"]:
@@ -81,16 +77,15 @@ def check_password():
 if not check_password():
     st.stop()
 
-# 사용자 정보 표시
-if "user_role" in st.session_state:
-    st.success(f"✅ {st.session_state['user_role']} 권한으로 로그인되었습니다.")
+# 로그인 성공 메시지
+st.success("✅ 로그인되었습니다.")
 
 # 로그아웃 버튼
-if st.sidebar.button("🚪 로그아웃"):
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-    st.experimental_rerun()
-
+with st.sidebar:
+    if st.button("🚪 로그아웃"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
 def convert_df_to_excel(df, sheet_name='Sheet1'):
     """DataFrame을 Excel로 변환"""
     try:
