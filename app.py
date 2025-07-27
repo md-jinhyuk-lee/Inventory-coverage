@@ -27,7 +27,7 @@ def check_password():
     """비밀번호 확인 함수"""
     def password_entered():
         # 하나의 비밀번호만 사용
-        correct_password = "inventory2024"  # 원하는 비밀번호로 변경하세요
+        correct_password = "dy1234"  # 원하는 비밀번호로 변경하세요
         
         if st.session_state["password"] == correct_password:
             st.session_state["password_correct"] = True
